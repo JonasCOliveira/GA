@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GeneticAlgorithm<T>
 {
@@ -12,13 +13,13 @@ public class GeneticAlgorithm<T>
 	public float MutationRate;
 	
 	private List<DNA<T>> newPopulation;
-	private Random random;
+	private System.Random random;
 	private float fitnessSum;
 	private int dnaSize;
-	private Func<T> getRandomGene;
+	private Func<int[]> getRandomGene;
 	private Func<int, float> fitnessFunction;
 
-	public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
+	public GeneticAlgorithm(int populationSize, int dnaSize, System.Random random, Func<int[]> getRandomGene, Func<int, float> fitnessFunction,
 		int elitism, float mutationRate = 0.01f)
 	{
 		Generation = 1;
@@ -35,7 +36,7 @@ public class GeneticAlgorithm<T>
 
 		for (int i = 0; i < populationSize; i++)
 		{
-			Population.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
+			Population.Add(new DNA<T>(dnaSize, random,  getRandomGene, fitnessFunction, shouldInitGenes: true));
 		}
 	}
 
@@ -53,7 +54,7 @@ public class GeneticAlgorithm<T>
 		}
 		newPopulation.Clear();
 
-		for (int i = 0; i < Population.Count; i++)
+		for (int i = 0; i < finalCount; i++)
 		{
 			if (i < Elitism && i < Population.Count)
 			{
@@ -111,15 +112,16 @@ public class GeneticAlgorithm<T>
 
 		BestFitness = best.Fitness;
 		best.Genes.CopyTo(BestGenes, 0);
+
 	}
 
 	private DNA<T> ChooseParent()
 	{
-		double randomNumber = random.NextDouble() * fitnessSum;
+		double randomNumber = random.NextDouble() * fitnessSum;  
 
 		for (int i = 0; i < Population.Count; i++)
 		{
-			if (randomNumber < Population[i].Fitness)
+			if (randomNumber < Population[i].Fitness) 
 			{
 				return Population[i];
 			}

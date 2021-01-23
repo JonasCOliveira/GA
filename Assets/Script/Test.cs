@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+
 
 public class Test : MonoBehaviour
 {
 	[Header("Genetic Algorithm")]
 	[SerializeField] float fitnessTarget = 10f;
-	[SerializeField] int sizeTarget = 1;
+	[SerializeField] int sizeTarget = 10;
 
-	[SerializeField] int[] validRhythm = {-3, -2, -1, 0, 1, 2, 3};
+	private List<int[]> GenesList = new List<int[]>();
 
-	private float  rhythm;
+	
+	//Bonificação, Num Ações e Complexidade
+	private int[] spyke = {1,-1,2};
+	private int[] opossum = {2,-1,2};
+	private int[] eagle = {2, -1, 2};
+	private int[] lifePoint = {1,1,1};
+	private int[] element;
+
 	[SerializeField] int populationSize = 200;
 	[SerializeField] float mutationRate = 0.01f;
 	[SerializeField] int elitism = 5;
@@ -34,11 +43,17 @@ public class Test : MonoBehaviour
 
 	void Start()
 	{
+
+		// GenesList.Add(spyke);
+		// GenesList.Add(opossum);
+		// GenesList.Add(eagle);
+		// GenesList.Add(lifePoint);
+
 		target.text = (fitnessTarget).ToString();
 		numGenerationsText.text = numGenerations.ToString();
 
 		random = new System.Random();
-		ga = new GeneticAlgorithm<float>(populationSize, sizeTarget, random, GetRhythm, FitnessFunction, elitism, mutationRate);
+		ga = new GeneticAlgorithm<float>(populationSize, sizeTarget, random, GetElement, FitnessFunction, elitism, mutationRate);
 
 	}
 
@@ -56,20 +71,30 @@ public class Test : MonoBehaviour
 		}
 	}
 
-	private float GetRhythm()
+	private int[] GetElement()
 	{
-		int i = random.Next(validRhythm.Length);
-		Debug.Log(validRhythm[i]);
-		return validRhythm[i];
+		int i = random.Next(GenesList.Count);
+		element  = GenesList[i];
+		return element;
+
 	}
 
 	private float FitnessFunction(int index)
 	{
 		float score = 0;
-		DNA<float> dna = ga.Population[index];
+		// DNA<List<int[]>> individuo = ga.Population[index];
 
-		rhythm = GetRhythm();
-		score += rhythm;
+		for(int i = 0; i < GenesList.Count; i++){ 
+			float temp = 1;
+
+    		for(int j = 0; j < GenesList[i].Length; j++){ 
+        		temp *= (float) GenesList[i].GetValue(j);  
+
+    		}
+
+			score += temp;	
+		}
+
 
 		return score;
 	}

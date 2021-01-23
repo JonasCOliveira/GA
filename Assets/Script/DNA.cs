@@ -6,10 +6,10 @@ public class DNA<T>
 	public float Fitness { get; private set; }
 
 	private Random random;
-	private Func<T> getRandomGene;
+	private Func<int[]> getRandomGene;
 	private Func<int, float> fitnessFunction;
 
-	public DNA(int size, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction, bool shouldInitGenes = true)
+	public DNA(int size, Random random, Func<int[]> getRandomGene, Func<int, float> fitnessFunction, bool shouldInitGenes = true)
 	{
 		Genes = new T[size];
 		this.random = random;
@@ -20,7 +20,7 @@ public class DNA<T>
 		{
 			for (int i = 0; i < Genes.Length; i++)
 			{
-				Genes[i] = getRandomGene();
+				Genes[i] = getRandomGene(); //GetElement() 
 			}
 		}
 	}
@@ -49,8 +49,10 @@ public class DNA<T>
 		{
 			if (random.NextDouble() < mutationRate)
 			{
-				Genes[i] = getRandomGene();
+				Genes[i] = getRandomGene(); //GetElement() 
 			}
 		}
 	}
+
+
 }
