@@ -53,26 +53,34 @@ public class GeneticAlgorithm
 			Population.Sort(CompareDNA);
 		}
 		newPopulation.Clear();
-
+	
 		for (int i = 0; i < finalCount; i++)
 		{
+
+			// Debug.Log("NOVO INDIVIDUO");
 			if (i < Elitism && i < Population.Count)
 			{
 				newPopulation.Add(Population[i]);
+				
 			}
 			else if (i < Population.Count || crossoverNewDNA)
 			{
 				DNA parent1 = ChooseParent();
 				DNA parent2 = ChooseParent();
 				DNA child = parent1.Crossover(parent2);
-
 				child.Mutate(MutationRate);
 
+				// for (int j = 0; j < child.Genes.Count; j++)
+				// {
+				// 	Debug.Log("Filho Mutado: {" + child.Genes[j].GetValue(0) + ", " +  child.Genes[j].GetValue(1) + ", " + child.Genes[j].GetValue(2) + "}");
+				// }
+				
 				newPopulation.Add(child);
 			}
 			else
 			{
 				newPopulation.Add(new DNA(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
+
 			}
 		}
 
@@ -113,7 +121,6 @@ public class GeneticAlgorithm
 		}
 
 		BestFitness = best.Fitness;
-		// Debug.Log("Best Fitness: " + BestFitness);
 		// Debug.Log("Best Gene: " + best.Genes.Count);
 	
 

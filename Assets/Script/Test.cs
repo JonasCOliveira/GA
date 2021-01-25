@@ -61,12 +61,14 @@ public class Test : MonoBehaviour
 	void Update()
 	{
 		ga.NewGeneration();
+
+		Debug.Log("Nova Geração");
 		numGenerations += 1;
 
 		numGenerationsText.text = numGenerations.ToString();
 		bestFitnessText.text = ga.BestFitness.ToString();
 
-		if (ga.BestFitness == fitnessTarget)
+		if (ga.BestFitness >= fitnessTarget)
 		{
 			this.enabled = false;
 		}
@@ -76,7 +78,7 @@ public class Test : MonoBehaviour
 	{
 		int i = random.Next(GenesList.Count);
 		element  = GenesList[i];
-		Debug.Log(objectList[i]);
+		// Debug.Log(objectList[i]);
 
 		return element;
 
@@ -105,7 +107,7 @@ public class Test : MonoBehaviour
 			score += temp;	
 		}
 
-		Debug.Log("Score: " + score);
+		// Debug.Log("Score: " + score);
 		return score;
 	}
 

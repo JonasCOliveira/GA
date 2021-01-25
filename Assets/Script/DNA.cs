@@ -23,7 +23,7 @@ public class DNA
 		
 		if (shouldInitGenes)
 		{
-			for (int i = 0; i < size; i++) 
+			for (int i = 0; i < size; i++) //Genes.Count
 			{
 				Genes.Add(getRandomGene()); //GetElement()
  			}
@@ -43,27 +43,50 @@ public class DNA
 	public DNA Crossover(DNA otherParent)
 	{
 		DNA child = new DNA(Genes.Count, random, getRandomGene, fitnessFunction, shouldInitGenes: false);
+		
 
-		for(int i = 0; i < Genes.Count; i++){ 
+	
+		for(int i = 0; i < Genes.Count; i++){
 
-    		for(int j = 0; j < Genes[i].Length; j++){ 
-        		 child.Genes[i].SetValue(random.NextDouble() < 0.5 ? Genes[i].GetValue(j):otherParent.Genes[i].GetValue(j),j);
-    		}
+
+			// Debug.Log("Pai: {" + Genes[i].GetValue(0) + ", " +  Genes[i].GetValue(1) + ", " + Genes[i].GetValue(2) + "}");
+			// Debug.Log("Mãe: {" + otherParent.Genes[i].GetValue(0) + ", " +  otherParent.Genes[i].GetValue(1) + ", " + otherParent.Genes[i].GetValue(2) + "}");
+
+			double rand = random.NextDouble();
+
+    		// for(int j = 0; j < Genes[i].Length; j++){   
+
+				// child.Genes[i].SetValue(random.NextDouble() < 0.5 ? Genes[i].GetValue(j):otherParent.Genes[i].GetValue(j),j);
+        		//  child.Genes[i] = random.NextDouble() < 0.5 ? Genes[i]:otherParent.Genes[i];
+
+				if(rand < 0.5){
+					// child.Genes[i].SetValue(Genes[i].GetValue(j),j);
+ 				// 	child.Genes[i] = Genes[i];
+					child.Genes.Add(Genes[i]);
+
+				}else {
+					// child.Genes[i].SetValue(otherParent.Genes[i].GetValue(j),j);
+				// 	child.Genes[i] = otherParent.Genes[i];
+					child.Genes.Add(otherParent.Genes[i]);
+				}
+
+				Debug.Log("Filho: {" + child.Genes[i].GetValue(0) + ", " +  child.Genes[i].GetValue(1) + ", " + child.Genes[i].GetValue(2) + "}");
+    		// }
 		}
-
-
-
-
 		return child;
+	
+	
 	}
 
 	public void Mutate(float mutationRate)
 	{
+
 		for (int i = 0; i < Genes.Count; i++)
 		{
 			if (random.NextDouble() < mutationRate)
 			{
 				Genes[i] = getRandomGene(); //GetElement() 
+				// Debug.Log( "valor de mutação de i " + i + " : {" + Genes[i].GetValue(0) + ", " +  Genes[i].GetValue(1) + ", " + Genes[i].GetValue(2) + "}");
 			}
 		}
 	}
