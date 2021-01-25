@@ -16,9 +16,9 @@ public class Test : MonoBehaviour
 
 	
 	//Bonificação, Num Ações e Complexidade
-	private int[] spyke = {1,-1,2};
-	private int[] opossum = {2,-1,2};
-	private int[] eagle = {2, -1, 2};
+	private int[] spyke = {1,1,2};
+	private int[] opossum = {2,1,2};
+	private int[] eagle = {2, 1, 2};
 	private int[] lifePoint = {1,1,1};
 	private int[] element;
 
@@ -44,16 +44,18 @@ public class Test : MonoBehaviour
 	void Start()
 	{
 
-		// GenesList.Add(spyke);
-		// GenesList.Add(opossum);
-		// GenesList.Add(eagle);
-		// GenesList.Add(lifePoint);
+		GenesList.Add(spyke);
+		GenesList.Add(opossum);
+		GenesList.Add(eagle);
+		GenesList.Add(lifePoint);
 
 		target.text = (fitnessTarget).ToString();
 		numGenerationsText.text = numGenerations.ToString();
 
 		random = new System.Random();
 		ga = new GeneticAlgorithm<float>(populationSize, sizeTarget, random, GetElement, FitnessFunction, elitism, mutationRate);
+
+		// Debug.Log("Primeiro individuo: " + ga.Population[0].Genes.Count);
 
 	}
 
@@ -75,6 +77,8 @@ public class Test : MonoBehaviour
 	{
 		int i = random.Next(GenesList.Count);
 		element  = GenesList[i];
+		Debug.Log("Elemento escolhido" + element);
+
 		return element;
 
 	}
@@ -82,9 +86,10 @@ public class Test : MonoBehaviour
 	private float FitnessFunction(int index)
 	{
 		float score = 0;
-		// DNA<List<int[]>> individuo = ga.Population[index];
+		DNA individuo = ga.Population[index];
 
-		for(int i = 0; i < GenesList.Count; i++){ 
+		// Calcula o score de um elemento
+		for(int i = 0; i < individuo.Genes.Count; i++){ 
 			float temp = 1;
 
     		for(int j = 0; j < GenesList[i].Length; j++){ 
