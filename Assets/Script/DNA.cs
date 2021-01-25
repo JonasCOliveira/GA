@@ -9,26 +9,29 @@ public class DNA
 {
 	public List<int[]> Genes { get; private set; }
 	public float Fitness { get; private set; }
+	public int size;
 
 	private System.Random random;
 	private Func<int[]> getRandomGene;
 	private Func<int, float> fitnessFunction;
 
+
 	public DNA(int size, System.Random random, Func<int[]> getRandomGene, Func<int, float> fitnessFunction, bool shouldInitGenes = true)
 	{
+
 		Genes =  new List<int[]>(size);
+		
+		if (shouldInitGenes)
+		{
+			for (int i = 0; i < size; i++) 
+			{
+				Genes.Add(getRandomGene()); //GetElement()
+ 			}
+		}
+
 		this.random = random;
 		this.getRandomGene = getRandomGene;
 		this.fitnessFunction = fitnessFunction;
-
-		if (shouldInitGenes)
-		{
-			for (int i = 0; i < Genes.Count; i++)
-			{
-				Genes[i] = getRandomGene(); //GetElement() 
-				Debug.Log(Genes[i]);
-			}
-		}
 	}
 
 	public float CalculateFitness(int index)
@@ -41,20 +44,15 @@ public class DNA
 	{
 		DNA child = new DNA(Genes.Count, random, getRandomGene, fitnessFunction, shouldInitGenes: false);
 
-		// for (int i = 0; i < Genes.Count; i++)
-		// {
-		// 	child.Genes[i] = random.NextDouble() < 0.5 ? Genes[i] : otherParent.Genes[i];
-		// }
-
 		for(int i = 0; i < Genes.Count; i++){ 
-			
-			Debug.Log(Genes[i].Length);
 
     		for(int j = 0; j < Genes[i].Length; j++){ 
         		 child.Genes[i].SetValue(random.NextDouble() < 0.5 ? Genes[i].GetValue(j):otherParent.Genes[i].GetValue(j),j);
-				 Debug.Log(child.Genes[i].GetValue(j));
     		}
 		}
+
+
+
 
 		return child;
 	}

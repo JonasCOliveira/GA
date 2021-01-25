@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GeneticAlgorithm<T>
+public class GeneticAlgorithm
 {
 	public List<DNA> Population { get; private set; }
 	public int Generation { get; private set; }
@@ -15,7 +15,7 @@ public class GeneticAlgorithm<T>
 	private List<DNA> newPopulation;
 	private System.Random random;
 	private float fitnessSum;
-	private int dnaSize = 10;
+	private int dnaSize;
 	private Func<int[]> getRandomGene;
 	private Func<int, float> fitnessFunction;
 
@@ -99,9 +99,12 @@ public class GeneticAlgorithm<T>
 		fitnessSum = 0;
 		DNA best = Population[0];
 
+		// Debug.Log("População:" + Population.Count);
+
 		for (int i = 0; i < Population.Count; i++)
 		{
 			fitnessSum += Population[i].CalculateFitness(i);
+			// Debug.Log("Somatório Fitness:" + fitnessSum);
 
 			if (Population[i].Fitness > best.Fitness)
 			{

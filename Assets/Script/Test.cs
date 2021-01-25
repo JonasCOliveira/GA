@@ -9,12 +9,12 @@ using System.Collections;
 public class Test : MonoBehaviour
 {
 	[Header("Genetic Algorithm")]
-	[SerializeField] float fitnessTarget = 10f;
+	[SerializeField] float fitnessTarget = 100;
 	[SerializeField] int sizeTarget = 10;
 
 	private List<int[]> GenesList = new List<int[]>();
+	private string[] objectList = {"spyke", "opossum", "eagle", "lifePoint"};
 
-	
 	//Bonificação, Num Ações e Complexidade
 	private int[] spyke = {1,1,2};
 	private int[] opossum = {2,1,2};
@@ -38,7 +38,7 @@ public class Test : MonoBehaviour
 	private int numGenerations = 0; 
 	[SerializeField] Text textPrefab;
 
-	private GeneticAlgorithm<float> ga;
+	private GeneticAlgorithm ga;
 	private System.Random random;
 
 	void Start()
@@ -49,13 +49,12 @@ public class Test : MonoBehaviour
 		GenesList.Add(eagle);
 		GenesList.Add(lifePoint);
 
+
 		target.text = (fitnessTarget).ToString();
 		numGenerationsText.text = numGenerations.ToString();
 
 		random = new System.Random();
-		ga = new GeneticAlgorithm<float>(populationSize, sizeTarget, random, GetElement, FitnessFunction, elitism, mutationRate);
-
-		// Debug.Log("Primeiro individuo: " + ga.Population[0].Genes.Count);
+		ga = new GeneticAlgorithm(populationSize, sizeTarget, random, GetElement, FitnessFunction, elitism, mutationRate);
 
 	}
 
@@ -77,7 +76,7 @@ public class Test : MonoBehaviour
 	{
 		int i = random.Next(GenesList.Count);
 		element  = GenesList[i];
-		Debug.Log("Elemento escolhido" + element);
+		Debug.Log(objectList[i]);
 
 		return element;
 
@@ -88,19 +87,25 @@ public class Test : MonoBehaviour
 		float score = 0;
 		DNA individuo = ga.Population[index];
 
+		// Debug.Log("numero de genes de um individuo:" + individuo.Genes.Count);
+
 		// Calcula o score de um elemento
-		for(int i = 0; i < individuo.Genes.Count; i++){ 
+		for(int i = 0; i < individuo.Genes.Count; i++){  
 			float temp = 1;
 
-    		for(int j = 0; j < GenesList[i].Length; j++){ 
-        		temp *= (float) GenesList[i].GetValue(j);  
+    		for(int j = 0; j < individuo.Genes[i].Length; j++){ 
 
+				// Debug.Log("Tamanho da lista de genes: " + GenesList[i].Length);
+				// temp *= (int) GenesList[i].GetValue(j); 
+				 temp *= (int) individuo.Genes[i].GetValue(j);
+			
     		}
-
+			
+			// Debug.Log("Score dentro do loop: " + score);
 			score += temp;	
 		}
 
-
+		Debug.Log("Score: " + score);
 		return score;
 	}
 
