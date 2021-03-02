@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 84ae4cda9816a904a8fcc773c3a4c430
+  - enabled: 1
+    path: Assets/Scenes/Test - Shakespeare.unity
+    guid: 9ae8e10afbc39494cbc136d574727bfd
   m_configObjects: {}

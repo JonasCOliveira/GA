@@ -41,9 +41,12 @@ public class Test : MonoBehaviour
 	private GeneticAlgorithm ga;
 	private System.Random random;
 
+	private string player;
+
 	void Start()
 	{
 
+		player  =  PlayerPrefs.GetString("playersName");
 		GenesList.Add(spyke);
 		GenesList.Add(opossum);
 		GenesList.Add(eagle);
@@ -62,7 +65,7 @@ public class Test : MonoBehaviour
 	{
 		ga.NewGeneration();
 
-		Debug.Log("Nova Geração");
+		// Debug.Log("Nova Geração");
 		numGenerations += 1;
 
 		numGenerationsText.text = numGenerations.ToString();
@@ -70,6 +73,8 @@ public class Test : MonoBehaviour
 
 		if (ga.BestFitness >= fitnessTarget)
 		{
+			Debug.Log(player);
+			StartCoroutine(Main.Instance.log.RegisterLog(player,"2", bestFitnessText.text ,"0"));
 			this.enabled = false;
 		}
 	}

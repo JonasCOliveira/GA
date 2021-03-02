@@ -70,7 +70,7 @@ public class DNA
 					child.Genes.Add(otherParent.Genes[i]);
 				}
 
-				Debug.Log("Filho: {" + child.Genes[i].GetValue(0) + ", " +  child.Genes[i].GetValue(1) + ", " + child.Genes[i].GetValue(2) + "}");
+				// Debug.Log("Filho: {" + child.Genes[i].GetValue(0) + ", " +  child.Genes[i].GetValue(1) + ", " + child.Genes[i].GetValue(2) + "}");
     		// }
 		}
 		return child;
